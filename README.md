@@ -38,10 +38,10 @@ const editor = grapesjs.init({
 });
 ```
 
-或者通过 CDN：
+或者直接引入文件：
 
 ```html
-<script src="https://unpkg.com/grapesjs-plugin-apidoc/dist/index.umd.js"></script>
+<script src="path/to/grapesjs-plugin-apidoc/dist/index.umd.js"></script>
 <script>
   grapesjs.init({
     // ...
@@ -49,6 +49,12 @@ const editor = grapesjs.init({
     pluginsOpts: { [GrapesjsPluginApidoc]: { apiPrefix: '/api' } },
   });
 </script>
+```
+
+发布到 npm 后也可通过 CDN 使用：
+
+```html
+<script src="https://unpkg.com/grapesjs-plugin-apidoc/dist/index.umd.js"></script>
 ```
 
 ## 配置项

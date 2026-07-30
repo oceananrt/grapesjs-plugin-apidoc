@@ -21,7 +21,17 @@
       "Bash(powershell -Command \"Compress-Archive -Path dist, package.json, README.md, demo -DestinationPath grapesjs-plugin-apidoc.zip -Force\")",
       "Bash(git --version)",
       "Bash(git config *)",
-      "Bash(git add *)"
+      "Bash(git add *)",
+      "Bash(git commit -m 'Initial release: GrapesJS API Doc Plugin v0.1.0 *)",
+      "Bash(git remote *)",
+      "Bash(git push *)",
+      "Bash(git rm *)",
+      "Bash(git commit *)",
+      "WebFetch(domain:oceananrt.github.io)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" https://oceananrt.github.io/grapesjs-plugin-apidoc/)",
+      "Bash(git mv *)",
+      "Bash(npm run *)",
+      "Bash(cp dist/index.umd.js docs/plugin.js)"
     ]
   }
 }
