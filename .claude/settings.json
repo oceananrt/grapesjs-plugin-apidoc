@@ -31,7 +31,8 @@
       "Bash(curl -s -o /dev/null -w \"%{http_code}\" https://oceananrt.github.io/grapesjs-plugin-apidoc/)",
       "Bash(git mv *)",
       "Bash(npm run *)",
-      "Bash(cp dist/index.umd.js docs/plugin.js)"
+      "Bash(cp dist/index.umd.js docs/plugin.js)",
+      "Bash(curl -s -w \"\\\\n%{http_code}\" https://oceananrt.github.io/grapesjs-plugin-apidoc/)"
     ]
   }
 }
