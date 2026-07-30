@@ -1,0 +1,27 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx rollup *)",
+      "Bash(npx http-server *)",
+      "Bash(node -e ' *)",
+      "Bash(npx jsdom *)",
+      "Bash(node --experimental-vm-modules test_table_structure.mjs)",
+      "WebFetch(domain:127.0.0.1)",
+      "Bash(npx tsx *)",
+      "Bash(rm smoke_test.mjs)",
+      "Bash(npx tsc *)",
+      "Bash(cp dist/index.umd.js demo/plugin.js)",
+      "Bash(awk '{print $5, $NF}')",
+      "Bash(awk '{print \"   \"$NF\" \\(\"$5\" bytes\\)\"}')",
+      "Bash(xargs echo \"   GrapesjsPluginApidoc:\")",
+      "Bash(xargs echo \"   Source files:\")",
+      "Bash(xargs echo \"   Dist files:\")",
+      "WebFetch(domain:grapesjs.com)",
+      "WebSearch",
+      "Bash(powershell -Command \"Compress-Archive -Path dist, package.json, README.md, demo -DestinationPath grapesjs-plugin-apidoc.zip -Force\")",
+      "Bash(git --version)",
+      "Bash(git config *)",
+      "Bash(git add *)"
+    ]
+  }
+}

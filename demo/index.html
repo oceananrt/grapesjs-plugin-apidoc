@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GrapesJS API Doc Plugin — Demo</title>
+
+  <!-- GrapesJS CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/grapesjs@0.22.16/dist/css/grapes.min.css">
+
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body, html { height: 100%; overflow: hidden; }
+
+    .demo-toolbar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      background: #1e1e2e;
+      color: #fff;
+      font-family: system-ui, sans-serif;
+      font-size: 13px;
+      border-bottom: 2px solid #3b82f6;
+      flex-wrap: wrap;
+    }
+    .demo-toolbar .logo { font-weight: bold; font-size: 16px; color: #3b82f6; margin-right: 8px; }
+    .demo-toolbar .sep { color: #555; margin: 0 4px; }
+    .demo-toolbar .hint { color: #888; font-size: 11px; margin-left: auto; }
+
+    .demo-toolbar button {
+      padding: 4px 10px;
+      font-size: 12px;
+      border: 1px solid #555;
+      border-radius: 4px;
+      background: #2a2a3a;
+      color: #ddd;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .demo-toolbar button:hover { background: #3a3a4a; }
+    .demo-toolbar button.primary { border-color: #3b82f6; color: #3b82f6; }
+    .demo-toolbar button.green { border-color: #22c55e; color: #22c55e; }
+    .demo-toolbar button.amber { border-color: #f59e0b; color: #f59e0b; }
+
+    #gjs { height: calc(100% - 44px); }
+
+    .gjs-pn-btn.fa-code::before {
+      content: '📡';
+      font-family: sans-serif;
+      font-size: 16px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="demo-toolbar">
+    <span class="logo">🧪 API Doc Plugin Demo</span>
+    <span class="sep">|</span>
+    <span style="color:#888;font-size:11px;">场景:</span>
+    <button onclick="loadUserPage()" class="primary">📋 用户管理 (表格+搜索)</button>
+    <button onclick="loadCreateUserForm()" class="green">➕ 新增用户 (表单)</button>
+    <button onclick="loadProductPage()" class="primary">🛒 商品管理 (表格+搜索)</button>
+    <button onclick="loadCreateProductForm()" class="green">➕ 新增商品 (表单)</button>
+    <button onclick="loadFullPage()" class="amber">📄 完整后台页面</button>
+    <button onclick="clearCanvas()">🗑️ 清空</button>
+    <span class="hint">💡 加载场景 → 点右侧 📡 按钮 → 查看 Console</span>
+  </div>
+
+  <div id="gjs"></div>
+
+  <script src="https://unpkg.com/grapesjs@0.22.16/dist/grapes.min.js"></script>
+  <script src="plugin.js"></script>
+
+  <script>
+    // ---- Scenario 1: User list (table) ----
+    function loadUserPage() {
+      editor.setComponents(`
+        <div style="padding:24px;font-family:sans-serif;">
+          <h2>👥 用户管理</h2>
+          <div style="display:flex;gap:12px;margin:16px 0;align-items:center;">
+            <input type="search" name="keyword" placeholder="搜索用户名/邮箱..." style="padding:8px 12px;border:1px solid #ccc;border-radius:4px;width:260px;">
+            <button style="padding:8px 16px;background:#3b82f6;color:#fff;border:none;border-radius:4px;cursor:pointer;">🔍 搜索</button>
+          </div>
+          <table style="width:100%;border-collapse:collapse;border:1px solid #e5e7eb;">
+            <thead>
+              <tr style="background:#f9fafb;">
+                <th style="padding:12px;text-align:left;border-bottom:2px solid #e5e7eb;">ID</th>
+                <th style="padding:12px;text-align:left;border-bottom:2px solid #e5e7eb;">用户名</th>
+                <th style="padding:12px;text-align:left;border-bottom:2px solid #e5e7eb;">邮箱</th>
+                <th style="padding:12px;text-align:left;border-bottom:2px solid #e5e7eb;">角色</th>
+                <th style="padding:12px;text-align:left;border-bottom:2px solid #e5e7eb;">状态</th>
+                <th style="padding:12px;text-align:left;border-bottom:2px solid #e5e7eb;">创建时间</th>
+                <th style="padding:12px;text-align:center;border-bottom:2px solid #e5e7eb;">操作</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td style="padding:12px;">1</td><td style="padding:12px;">张三</td><td style="padding:12px;">zhangsan@example.com</td><td style="padding:12px;">管理员</td><td style="padding:12px;"><span style="color:#22c55e;">启用</span></td><td style="padding:12px;">2026-01-15</td><td style="padding:12px;text-align:center;"><a href="#" style="color:#3b82f6;margin-right:8px;">编辑</a><a href="#" style="color:#ef4444;">删除</a></td></tr>
+              <tr><td style="padding:12px;">2</td><td style="padding:12px;">李四</td><td style="padding:12px;">lisi@example.com</td><td style="padding:12px;">普通用户</td><td style="padding:12px;"><span style="color:#22c55e;">启用</span></td><td style="padding:12px;">2026-03-20</td><td style="padding:12px;text-align:center;"><a href="#" style="color:#3b82f6;margin-right:8px;">编辑</a><a href="#" style="color:#ef4444;">删除</a></td></tr>
+            </tbody>
+          </table>
+        </div>
+      `);
+      editor.log('✅ 已加载用户管理页面', { level: 'info' });
+    }
+
+    // ---- Scenario 2: Create user form ----
+    function loadCreateUserForm() {
+      editor.setComponents(`
+        <div style="padding:24px;font-family:sans-serif;max-width:600px;">
+          <h2>👤 新增用户</h2>
+          <form data-resource="users" style="margin-top:20px;padding:24px;border:1px solid #e5e7eb;border-radius:12px;background:#fafafa;">
+            <div style="margin-bottom:16px;">
+              <label style="display:block;margin-bottom:6px;font-weight:500;">用户名</label>
+              <input type="text" name="username" required placeholder="请输入用户名" style="width:100%;padding:10px 12px;border:1px solid #d1d5db;border-radius:6px;font-size:14px;">
+            </div>
+            <div style="margin-bottom:16px;">
+              <label style="display:block;margin-bottom:6px;font-weight:500;">邮箱</label>
+              <input type="email" name="email" required placeholder="请输入邮箱地址" style="width:100%;padding:10px 12px;border:1px solid #d1d5db;border-radius:6px;font-size:14px;">
+            </div>
+            <div style="margin-bottom:16px;">
+              <label style="display:block;margin-bottom:6px;font-weight:500;">密码</label>
+              <input type="password" name="password" required placeholder="请输入密码" style="width:100%;padding:10px 12px;border:1px solid #d1d5db;border-radius:6px;font-size:14px;">
+            </div>
+            <div style="margin-bottom:16px;">
+              <label style="display:block;margin-bottom:6px;font-weight:500;">手机号</label>
+              <input type="text" name="phone" placeholder="请输入手机号" style="width:100%;padding:10px 12px;border:1px solid #d1d5db;border-radius:6px;font-size:14px;">
+            </div>
+            <div style="margin-bottom:20px;">
+              <label style="display:block;margin-bottom:6px;font-weight:500;">角色</label>
+              <select name="role" style="width:100%;padding:10px 12px;border:1px solid #d1d5db;border-radius:6px;font-size:14px;">
+                <option value="admin">管理员</option>
+                <option value="user">普通用户</option>
+                <option value="editor">编辑员</option>
+              </select>
+            </div>
+            <div style="display:flex;gap:12px;">
+              <button type="submit" style="padding:10px 24px;background:#22c55e;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:14px;">✓ 创建用户</button>
+              <button type="reset" style="padding:10px 24px;background:#fff;color:#666;border:1px solid #d1d5db;border-radius:6px;cursor:pointer;font-size:14px;">重置</button>
+            </div>
+          </form>
+        </div>
+      `);
+      editor.log('✅ 已加载新增用户表单', { level: 'info' });
+    }
+
+    // ---- Scenario 3: Product list (table) ----
+    function loadProductPage() {
+      editor.setComponents(`
+        <div style="padding:24px;font-family:sans-serif;">
+          <h2>🛒 商品管理</h2>
+          <div style="display:flex;gap:12px;margin:16px 0;align-items:center;">
+            <input type="search" name="keyword" placeholder="搜索商品名称..." style="padding:8px 12px;border:1px solid #ccc;border-radius:4px;width:260px;">
+            <select name="category" style="padding:8px 12px;border:1px solid #ccc;border-radius:4px;">
+              <option value="">全部分类</option>
+              <option value="electronics">电子产品</option>
+              <option value="clothing">服装</option>
+              <option value="food">食品</option>
+            </select>
+            <button style="padding:8px 16px;background:#3b82f6;color:#fff;border:none;border-radius:4px;cursor:pointer;">🔍 搜索</button>
+          </div>
+          <table style="width:100%;border-collapse:collapse;border:1px solid #e5e7eb;">
+            <thead>
+              <tr style="background:#f9fafb;">
+                <th style="padding:12px;text-align:left;border-bottom:2px solid #e5e7eb;">ID</th>
+                <th style="padding:12px;text-align:left;border-bottom:2px solid #e5e7eb;">商品名称</th>
+                <th style="padding:12px;text-align:left;border-bottom:2px solid #e5e7eb;">价格</th>
+                <th style="padding:12px;text-align:left;border-bottom:2px solid #e5e7eb;">库存</th>
+                <th style="padding:12px;text-align:left;border-bottom:2px solid #e5e7eb;">分类</th>
+                <th style="padding:12px;text-align:left;border-bottom:2px solid #e5e7eb;">状态</th>
+                <th style="padding:12px;text-align:center;border-bottom:2px solid #e5e7eb;">操作</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td style="padding:12px;">1</td><td style="padding:12px;">iPhone 18</td><td style="padding:12px;">¥9,999</td><td style="padding:12px;">500</td><td style="padding:12px;">电子产品</td><td style="padding:12px;"><span style="color:#22c55e;">上架</span></td><td style="padding:12px;text-align:center;"><a href="#" style="color:#3b82f6;margin-right:8px;">编辑</a><a href="#" style="color:#ef4444;">删除</a></td></tr>
+              <tr><td style="padding:12px;">2</td><td style="padding:12px;">MacBook Air</td><td style="padding:12px;">¥12,999</td><td style="padding:12px;">200</td><td style="padding:12px;">电子产品</td><td style="padding:12px;"><span style="color:#22c55e;">上架</span></td><td style="padding:12px;text-align:center;"><a href="#" style="color:#3b82f6;margin-right:8px;">编辑</a><a href="#" style="color:#ef4444;">删除</a></td></tr>
+            </tbody>
+          </table>
+        </div>
+      `);
+      editor.log('✅ 已加载商品管理页面', { level: 'info' });
+    }
+
+    // ---- Scenario 4: Create product form ----
+    function loadCreateProductForm() {
+      editor.setComponents(`
+        <div style="padding:24px;font-family:sans-serif;max-width:600px;">
+          <h2>📦 新增商品</h2>
+          <form data-resource="products" style="margin-top:20px;padding:24px;border:1px solid #e5e7eb;border-radius:12px;background:#fafafa;">
+            <div style="margin-bottom:16px;">
+              <label style="display:block;margin-bottom:6px;font-weight:500;">商品名称</label>
+              <input type="text" name="name" required placeholder="请输入商品名称" style="width:100%;padding:10px 12px;border:1px solid #d1d5db;border-radius:6px;font-size:14px;">
+            </div>
+            <div style="margin-bottom:16px;">
+              <label style="display:block;margin-bottom:6px;font-weight:500;">价格</label>
+              <input type="number" name="price" required placeholder="请输入价格" style="width:100%;padding:10px 12px;border:1px solid #d1d5db;border-radius:6px;font-size:14px;">
+            </div>
+            <div style="margin-bottom:16px;">
+              <label style="display:block;margin-bottom:6px;font-weight:500;">库存数量</label>
+              <input type="number" name="stock" placeholder="请输入库存数量" style="width:100%;padding:10px 12px;border:1px solid #d1d5db;border-radius:6px;font-size:14px;">
+            </div>
+            <div style="margin-bottom:16px;">
+              <label style="display:block;margin-bottom:6px;font-weight:500;">分类</label>
+              <select name="category" style="width:100%;padding:10px 12px;border:1px solid #d1d5db;border-radius:6px;font-size:14px;">
+                <option value="electronics">电子产品</option>
+                <option value="clothing">服装</option>
+                <option value="food">食品</option>
+                <option value="books">图书</option>
+              </select>
+            </div>
+            <div style="margin-bottom:20px;">
+              <label style="display:block;margin-bottom:6px;font-weight:500;">商品描述</label>
+              <textarea name="description" rows="3" placeholder="请输入商品描述..." style="width:100%;padding:10px 12px;border:1px solid #d1d5db;border-radius:6px;font-size:14px;resize:vertical;"></textarea>
+            </div>
+            <div style="display:flex;gap:12px;">
+              <button type="submit" style="padding:10px 24px;background:#22c55e;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:14px;">✓ 创建商品</button>
+              <button type="reset" style="padding:10px 24px;background:#fff;color:#666;border:1px solid #d1d5db;border-radius:6px;cursor:pointer;font-size:14px;">重置</button>
+            </div>
+          </form>
+        </div>
+      `);
+      editor.log('✅ 已加载新增商品表单', { level: 'info' });
+    }
+
+    // ---- Scenario 5: Full admin page (table + form side by side) ----
+    function loadFullPage() {
+      editor.setComponents(`
+        <div style="padding:24px;font-family:sans-serif;">
+          <h2>🏠 后台管理系统</h2>
+          <div style="display:grid;grid-template-columns:1fr 400px;gap:24px;">
+            <!-- Left: Table -->
+            <div>
+              <h3 style="margin-bottom:12px;">📋 用户列表</h3>
+              <table style="width:100%;border-collapse:collapse;border:1px solid #e5e7eb;">
+                <thead>
+                  <tr style="background:#f9fafb;">
+                    <th style="padding:10px;text-align:left;border-bottom:2px solid #e5e7eb;">ID</th>
+                    <th style="padding:10px;text-align:left;border-bottom:2px solid #e5e7eb;">用户名</th>
+                    <th style="padding:10px;text-align:left;border-bottom:2px solid #e5e7eb;">邮箱</th>
+                    <th style="padding:10px;text-align:left;border-bottom:2px solid #e5e7eb;">角色</th>
+                    <th style="padding:10px;text-align:center;border-bottom:2px solid #e5e7eb;">操作</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr><td style="padding:10px;">1</td><td style="padding:10px;">张三</td><td style="padding:10px;">zhangsan@example.com</td><td style="padding:10px;">管理员</td><td style="padding:10px;text-align:center;"><a href="#" style="color:#3b82f6;margin-right:8px;">编辑</a><a href="#" style="color:#ef4444;">删除</a></td></tr>
+                  <tr><td style="padding:10px;">2</td><td style="padding:10px;">李四</td><td style="padding:10px;">lisi@example.com</td><td style="padding:10px;">普通用户</td><td style="padding:10px;text-align:center;"><a href="#" style="color:#3b82f6;margin-right:8px;">编辑</a><a href="#" style="color:#ef4444;">删除</a></td></tr>
+                </tbody>
+              </table>
+            </div>
+            <!-- Right: Create Form -->
+            <div>
+              <h3 style="margin-bottom:12px;">➕ 新增用户</h3>
+              <form data-resource="users" style="padding:20px;border:1px solid #e5e7eb;border-radius:10px;background:#fafafa;">
+                <div style="margin-bottom:12px;">
+                  <label style="display:block;margin-bottom:4px;font-size:13px;font-weight:500;">用户名</label>
+                  <input type="text" name="username" required style="width:100%;padding:8px 10px;border:1px solid #d1d5db;border-radius:4px;font-size:13px;">
+                </div>
+                <div style="margin-bottom:12px;">
+                  <label style="display:block;margin-bottom:4px;font-size:13px;font-weight:500;">邮箱</label>
+                  <input type="email" name="email" required style="width:100%;padding:8px 10px;border:1px solid #d1d5db;border-radius:4px;font-size:13px;">
+                </div>
+                <div style="margin-bottom:12px;">
+                  <label style="display:block;margin-bottom:4px;font-size:13px;font-weight:500;">密码</label>
+                  <input type="password" name="password" required style="width:100%;padding:8px 10px;border:1px solid #d1d5db;border-radius:4px;font-size:13px;">
+                </div>
+                <div style="margin-bottom:16px;">
+                  <label style="display:block;margin-bottom:4px;font-size:13px;font-weight:500;">角色</label>
+                  <select name="role" style="width:100%;padding:8px 10px;border:1px solid #d1d5db;border-radius:4px;font-size:13px;">
+                    <option value="admin">管理员</option>
+                    <option value="user">普通用户</option>
+                  </select>
+                </div>
+                <button type="submit" style="width:100%;padding:10px;background:#22c55e;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:14px;">✓ 创建</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      `);
+      editor.log('✅ 已加载完整后台页面（表格+表单）', { level: 'info' });
+    }
+
+    function clearCanvas() {
+      editor.setComponents('<div style="padding:24px;font-family:sans-serif;color:#999;text-align:center;margin-top:100px;font-size:16px;">空画布 — 点击顶部按钮加载示例场景</div>');
+    }
+
+    // ---- Init GrapesJS ----
+    const editor = grapesjs.init({
+      container: '#gjs',
+      height: '100%',
+      width: 'auto',
+      storageManager: false,
+      blockManager: {
+        appendTo: '#gjs',
+        blocks: [
+          { id: 'text', label: '文本', category: '基础', content: '<div>文本内容</div>' },
+          { id: 'button', label: '按钮', category: '基础', content: '<button style="padding:8px 16px;">按钮</button>' },
+          { id: 'input', label: '输入框', category: '表单', content: '<input type="text" name="field" placeholder="请输入..." style="padding:8px;border:1px solid #ccc;border-radius:4px;">' },
+          { id: 'select', label: '下拉框', category: '表单', content: '<select name="type" style="padding:8px;border:1px solid #ccc;border-radius:4px;"><option value="1">选项1</option><option value="2">选项2</option></select>' },
+          { id: 'textarea', label: '文本域', category: '表单', content: '<textarea name="content" placeholder="请输入内容..." style="padding:8px;border:1px solid #ccc;border-radius:4px;width:100%;min-height:80px;"></textarea>' },
+          { id: 'form', label: '表单容器', category: '表单', content: '<form style="padding:16px;border:1px solid #e5e7eb;border-radius:8px;background:#f9fafb;"><h3 style="margin:0 0 12px;">表单标题</h3></form>' },
+          { id: 'table', label: '表格', category: '数据', content: '<table style="width:100%;border-collapse:collapse;border:1px solid #e5e7eb;"><thead><tr style="background:#f9fafb;"><th style="padding:12px;">列1</th><th style="padding:12px;">列2</th></tr></thead></table>' },
+        ],
+      },
+      styleManager: { appendTo: '#gjs' },
+      selectorManager: { appendTo: '#gjs' },
+      plugins: [GrapesjsPluginApidoc],
+      pluginsOpts: { [GrapesjsPluginApidoc]: { apiPrefix: '/api', debug: true } },
+    });
+
+    setTimeout(() => loadUserPage(), 500);
+
+    console.log('🧪 GrapesJS API Doc Plugin Demo ready');
+    console.log('💡 点击顶部按钮加载场景 → 点击右侧 📡 按钮生成 API 文档');
+    console.log('💡 打开 F12 Console 查看详细扫描日志');
+  </script>
+</body>
+</html>
