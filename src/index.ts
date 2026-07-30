@@ -141,9 +141,9 @@ const plugin: Plugin<PluginOptions> = (editor, opts = {}) => {
   // ---- Add button to panel ----
   editor.Panels.addButton(options.panelId, {
     id: 'apidoc-btn',
-    className: 'fa fa-code',
+    className: 'gjs-pn-btn-apidoc',
+    label: `<span style="padding:0 6px;">${options.btnLabel}</span>`,
     command: 'apidoc:scan',
-    attributes: { title: options.btnLabel },
   });
 
   // ---- Auto-scan on load ----
@@ -265,7 +265,14 @@ function escapeHTML(str: string): string {
 }
 
 const panelCSS = `
-  .gjs-pn-btn.fa-code::before { content: '📡'; font-family: sans-serif; }
+  .gjs-pn-btn-apidoc {
+    background: #3b82f6 !important;
+    color: #fff !important;
+    font-weight: 600;
+    border-radius: 6px !important;
+    margin: 0 4px;
+  }
+  .gjs-pn-btn-apidoc:hover { background: #2563eb !important; }
 `;
 
 export default plugin;
