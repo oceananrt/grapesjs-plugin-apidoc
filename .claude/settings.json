@@ -32,7 +32,14 @@
       "Bash(git mv *)",
       "Bash(npm run *)",
       "Bash(cp dist/index.umd.js docs/plugin.js)",
-      "Bash(curl -s -w \"\\\\n%{http_code}\" https://oceananrt.github.io/grapesjs-plugin-apidoc/)"
+      "Bash(curl -s -w \"\\\\n%{http_code}\" https://oceananrt.github.io/grapesjs-plugin-apidoc/)",
+      "Bash(GIT_SSL_NO_VERIFY=1 git push)",
+      "Bash(ssh -T git@github.com)",
+      "Bash(gh auth *)",
+      "Bash(ping -n 3 github.com)",
+      "Bash(curl -s -o /dev/null -w \"HTTP %{http_code}\" https://github.com)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://127.0.0.1:8080/)",
+      "Bash(taskkill //F //IM node.exe)"
     ]
   }
 }

@@ -64,7 +64,7 @@ const plugin: Plugin<PluginOptions> = (editor, opts = {}) => {
       } catch (err: any) {
         console.error('API Doc Plugin: scan failed', err);
         editor.Modal.open({
-          title: '📡 扫描失败',
+          title: '扫描失败',
           content: `<div style="padding:24px;font-family:system-ui;text-align:center;">
             <p style="color:#ef4444;">扫描过程中出现错误：</p>
             <pre style="background:#1e1e1e;color:#f87171;padding:12px;border-radius:6px;font-size:12px;text-align:left;max-height:200px;overflow:auto;">${escapeHTML(String(err.message || err))}</pre>
@@ -84,7 +84,7 @@ const plugin: Plugin<PluginOptions> = (editor, opts = {}) => {
 
       // Debug logging
       if (options.debug) {
-        console.group('📡 API Doc Plugin — Debug');
+        console.group('API Doc Plugin — Debug');
         console.log('Scanned components:', components.length);
         console.table(components.map(c => ({
           id: c.id?.slice(-12),
@@ -128,7 +128,7 @@ const plugin: Plugin<PluginOptions> = (editor, opts = {}) => {
 
       // Show results modal
       editor.Modal.open({
-        title: '📡 推断的 API 接口',
+        title: '推断的 API 接口',
         content: buildModalContent(endpoints, openapi, postman, mocks, dlId),
       });
 
@@ -177,7 +177,7 @@ function buildModalContent(endpoints: any[], openapi: any, postman: any, _mocks:
         <h3 style="margin:0 0 8px;color:#333;">未检测到 API 接口</h3>
         <p style="color:#888;font-size:14px;line-height:1.6;margin:0;">
           画布上未发现表格或表单组件。<br>
-          <span style="color:#3b82f6;">💡 提示：</span>拖拽<b>表格</b>或<b>表单</b>组件到画布，再点击 📡 扫描。
+          <span style="color:#3b82f6;">💡 提示：</span>拖拽<b>表格</b>或<b>表单</b>组件到画布，再点击 扫描。
         </p>
       </div>
     `;

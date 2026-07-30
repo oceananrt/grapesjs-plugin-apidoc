@@ -303,28 +303,8 @@
       },
       styleManager: { appendTo: '#gjs' },
       selectorManager: { appendTo: '#gjs' },
-      // Keep panels compact for better demo proportions
-      panels: {
-        defaults: [
-          {
-            id: 'panel-switcher',
-            buttons: [
-              { id: 'show-blocks', className: 'fa fa-th-large', active: true, command: 'show-blocks' },
-              { id: 'show-styles', className: 'fa fa-paint-brush', command: 'show-styles' },
-            ],
-          },
-        ],
-      },
-      // Narrower sidebars for cleaner demo look
-      canvas: { styles: ['https://unpkg.com/grapesjs@0.22.16/dist/css/grapes.min.css'] },
       plugins: [GrapesjsPluginApidoc],
       pluginsOpts: { [GrapesjsPluginApidoc]: { apiPrefix: '/api', debug: true } },
-    });
-
-    // Start with blocks panel visible, styles collapsed for clean demo look
-    editor.on('load', () => {
-      const blocksPanel = editor.Panels.getPanel('views-container');
-      if (blocksPanel) blocksPanel.set('visible', true);
     });
 
     setTimeout(() => loadUserPage(), 500);
